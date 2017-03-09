@@ -1,0 +1,15 @@
+#btn:hover {
+    background-color: green;
+}
+
+#btn {
+    font-size: 20px;
+    border: 2px solid blue;
+    border-radius: 50%;
+}
+
+.results {
+   
+    border: 2px solid plum;
+    background-color: peachpuff; 
+}
