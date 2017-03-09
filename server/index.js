@@ -7,7 +7,7 @@ var pool = mysql.createPool({
     connectionLimit: 10,
     host: 'localhost',
     user: 'rachel',
-    password: "Byebyeoz3",
+    password: "",
     database: 'Chirper'
 });
 
@@ -134,7 +134,7 @@ app.get('/api/chirps/:id', function (req, res) {
         // res.sendStatus(500);
     })
 })
-
+//post
 app.post('/api/chirps', function (req, res) {
     insertChirp(req.body.message, req.body.user, req.body.dt).then(function (data) {
         res.send(data[0]);
@@ -144,7 +144,7 @@ app.post('/api/chirps', function (req, res) {
         // res.sendStatus(500);
     })
 })
-
+//update
 app.put('/api/chirps/:id', function (req, res) {
     insertChirp(req.params.id, req.body.message).then(function (data) {
         res.send(data[0]);
@@ -154,7 +154,7 @@ app.put('/api/chirps/:id', function (req, res) {
         // res.sendStatus(500);
     })
 })
-
+//delete
 app.delete('/api/chirps', function (req, res) {
     insertChirp(req.params.id).then(function (data) {
         res.send(data[0]);
