@@ -20,6 +20,7 @@ var clientPath = path.join(__dirname, "../client");
 app.use(express.static(clientPath));
 app.use(bodyParser.json());
 
+
 //function to call SP for all chirps
 function getAllChirps() {
     return new Promise(function (resolve, reject) {
@@ -32,6 +33,7 @@ function getAllChirps() {
                         reject(err);
                     } else {
                         resolve(resultsets);
+                        // console.log(resultsets);
                     }
                 })
             }
@@ -50,7 +52,6 @@ function getSingleChirp(id) {
                     if (err) {
                         reject(err);
                     } else {
-
                         resolve(resultsets);
                     }
                 })
@@ -60,17 +61,17 @@ function getSingleChirp(id) {
 }
 
 //INSERT NEW CHIRPS
-function insertChirp(message, user, timestamp) {
+function insertChirp(message, userid, timestamp) {
     return new Promise(function (resolve, reject) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 reject(err);
             } else {
-                connection.query('CALL InsertChirp(?,?,?)', [message, user, timestamp], function (err, resultsets) {
+                connection.query('CALL InsertChirp(?,?, ?)', [message, userid, timestamp], function (err, resultsets) {
                     if (err) {
                         reject(err);
                     } else {
-
+                        console.log(resultsets);
                         resolve(resultsets);
                     }
                 })
@@ -105,7 +106,25 @@ function deleteChirp(id) {
             if (err) {
                 reject(err);
             } else {
-                connection.query('CALL DeleteChirp(?, ?)', [id, message], function (err, resultsets) {
+                connection.query('CALL DeleteChirp(?)', [id], function (err, resultsets) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(resultsets);
+                    }
+                })
+            }
+        })
+    })
+}
+
+function getUsers() {
+    return new Promise(function (resolve, reject) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                reject(err);
+            } else {
+                connection.query('CALL GetUsers()', function (err, resultsets) {
                     if (err) {
                         reject(err);
                     } else {
@@ -120,6 +139,7 @@ function deleteChirp(id) {
 //GET REQUEST FOR ALL
 app.get('/api/chirps', function (req, res) {
     getAllChirps().then(function (data) {
+        console.log(data);
         res.send(data[0]);
     }, function (err) {
         console.log(err);
@@ -136,7 +156,7 @@ app.get('/api/chirps/:id', function (req, res) {
 })
 //post
 app.post('/api/chirps', function (req, res) {
-    insertChirp(req.body.message, req.body.user, req.body.dt).then(function (data) {
+    insertChirp(req.body.message, req.body.UserID, req.body.dt).then(function (data) {
         res.send(data[0]);
         res.status(201).end();
     }, function (err) {
@@ -155,13 +175,21 @@ app.put('/api/chirps/:id', function (req, res) {
     })
 })
 //delete
-app.delete('/api/chirps', function (req, res) {
-    insertChirp(req.params.id).then(function (data) {
+app.delete('/api/chirps/:id', function (req, res) {
+    deleteChirp(req.params.id).then(function (data) {
         res.send(data[0]);
         res.status(204).end();
     }, function (err) {
         console.log(err);
         // res.sendStatus(500);
+    })
+})
+
+app.get('/api/users', function (req, res) {
+    getUsers().then(function (data) {
+        res.send(data[0]);
+    }, function (err) {
+        console.log(err);
     })
 })
 

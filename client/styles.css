@@ -1,3 +1,5 @@
+
+
 #btn:hover {
     background-color: green;
 }
@@ -6,10 +8,38 @@
     font-size: 20px;
     border: 2px solid blue;
     border-radius: 50%;
+    font-family: 'Rock Salt', cursive;
+    margin-left: 1em;
 }
 
 .results {
-   
-    border: 2px solid plum;
-    background-color: peachpuff; 
+    border: 2px solid darkblue;
+    background-color: lightskyblue; 
+    margin-left: 5em;
+    margin-right: 5em;
+    margin-top: 2em;
+    font-family: 'Sofadi One', cursive;
+    text-align: center;
 }
+
+#title {
+    text-align: center;
+    font-family: 'Rock Salt', cursive;
+}
+
+h3 {
+    text-align: center;   
+}
+
+#delete {
+margin: 0 auto;
+margin-bottom: 1em;
+}
+
+#message {
+    text-align: left;
+    margin-left: 1em;
+}
+
+
+
